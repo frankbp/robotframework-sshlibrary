@@ -1,6 +1,7 @@
 package com.netease.robotframework.ssh;
 
 import java.util.Properties;
+import java.io.*;
 import com.jcraft.jsch.*;
 
 import org.robotframework.javalib.annotation.RobotKeyword;
@@ -8,7 +9,7 @@ import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 import org.robotframework.javalib.annotation.ArgumentNames;
 
-import java.io.*;
+import com.netease.robotframework.ssh.logging.SshLogging;
 
 @RobotKeywords
 public class SshClient {
@@ -59,7 +60,8 @@ public class SshClient {
         Properties config = new Properties();
         config.put("StrictHostKeyChecking", "no");
         this.session.setConfig(config);
-        System.out.println("Connecting to SSH server " + host + ":" + port);
+        
+        SshLogging.info("Connecting to SSH server " + host + ":" + port);
         this.session.connect(sessionConnectionTimeout);
     }
 
@@ -70,12 +72,12 @@ public class SshClient {
             + "| Execute Shell Command | ls -al |\n")
     @ArgumentNames({"command"})
     public SshResult executeShellCommand(String command) throws JSchException, IOException {
-        System.out.println("Opening SSH session");
+    	SshLogging.info("Opening SSH session");
         ChannelExec channel = (ChannelExec) this.session.openChannel("exec");
 
         try {
             channel.setCommand(command);
-            System.out.println("Execute Command: " + command);
+            SshLogging.info("Execute Command: " + command);
             channel.connect();
 
             return getCommandResponseFromChannel(channel);
@@ -110,9 +112,9 @@ public class SshClient {
             inputData.close();
         }
 
-        System.out.println("Command Exit Code: " + exitCode);
-        System.out.println("Command Response: " + commandResponse.toString());
-        System.out.println("Command Error Information: " + errorInfo.toString());
+        SshLogging.info("Command Exit Code: " + exitCode);
+        SshLogging.info("Command Response: " + commandResponse.toString());
+        SshLogging.info("Command Error Information: " + errorInfo.toString());
 
         return new SshResult(exitCode,commandResponse.toString(), errorInfo.toString());
     }
