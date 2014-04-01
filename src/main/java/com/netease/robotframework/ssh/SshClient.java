@@ -113,9 +113,10 @@ public class SshClient {
         }
 
         SshLogging.info("Command Exit Code: " + exitCode);
-        SshLogging.info("Command Response: " + commandResponse.toString());
-        SshLogging.info("Command Error Information: " + errorInfo.toString());
+        SshLogging.info("Command Response:\n" + commandResponse.toString());
+        SshLogging.info("Command Error Information:\n" + errorInfo.toString());
 
+        
         return new SshResult(exitCode,commandResponse.toString(), errorInfo.toString());
     }
 
@@ -124,7 +125,6 @@ public class SshClient {
             + "| Delete Session |\n")
     @ArgumentNames({})
     public void deleteSession() {
-    	SshLogging.debug("Delete session");
         this.session.disconnect();
     }
 }

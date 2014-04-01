@@ -1,6 +1,7 @@
 package com.netease.robotframework.ssh.logging;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 public class SshLogging {
@@ -8,6 +9,7 @@ public class SshLogging {
 	
 	{
 	BasicConfigurator.configure();
+	sshLogger.setLevel(Level.ALL);
 	}
 	
     public static void info(String msg) {
