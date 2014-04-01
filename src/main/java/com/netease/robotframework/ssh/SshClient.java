@@ -124,6 +124,7 @@ public class SshClient {
             + "| Delete Session |\n")
     @ArgumentNames({})
     public void deleteSession() {
+    	SshLogging.debug("Delete session");
         this.session.disconnect();
     }
 }
